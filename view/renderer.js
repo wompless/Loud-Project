@@ -27,13 +27,6 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("statusMessage").textContent = "❌ Build failed. Check the console for errors.";
     showNotification("❌ Build Error", "Something went wrong during the build.");
   });
-  document.getElementById('minimize').addEventListener('click', () => {
-    window.electronAPI.minimizeWindow();
-  });
-
-  document.getElementById('close').addEventListener('click', () => {
-    window.electronAPI.closeWindow();
-  });
 });
 
 function showNotification(title, message) {

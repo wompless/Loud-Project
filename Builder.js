@@ -36,23 +36,28 @@ app.whenReady().then(() => {
   });
 });
 
-ipcMain.on("minimize-window", () => {
+ipcMain.on("minimizeApp", () => {
+  if (win) win.minimize();
+});
+
+ipcMain.on("maximizeRestoreApp", () => {
   if (win) {
-    win.minimize();
+    if (win.isMaximized()) {
+      win.restore();
+    } else {
+      win.maximize();
+    }
   }
 });
 
-ipcMain.on("close-window", () => {
-  if (win) {
-    win.close();
-  }
+ipcMain.on("closeApp", () => {
+  if (win) win.close();
 });
 
 app.on("window-all-closed", () => {
-  if (process.platform !== "darwin") {
-    app.quit();
-  }
+  if (process.platform !== "darwin") app.quit();
 });
+
 
 ipcMain.on("start-build", (event, config) => {
   console.log("Received config from renderer:", config);

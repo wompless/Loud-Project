@@ -1,0 +1,154 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Arial', sans-serif;
+  }
+
+  body {
+    background-color: #121212;
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    flex-direction: column;
+  }
+
+  .control-btn {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background-color: #bb86fc;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  .control-btn:hover {
+    background-color: #ff4081;
+  }
+
+  .control-btn.min {
+    background-color: #ffbd4c;
+  }
+
+  .control-btn.close {
+    background-color: #ff4c4c;
+  }
+
+  h1 {
+    font-size: 2.5rem;
+    margin-bottom: 2rem;
+    color: #bb86fc;
+    text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5);
+  }
+
+  form {
+    background: linear-gradient(145deg, #1a1a1a, #292929);
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    width: 300px;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  label {
+    font-size: 1.1rem;
+    color: #fff;
+    margin-bottom: 0.5rem;
+  }
+
+  input, select {
+    padding: 0.8rem;
+    font-size: 1rem;
+    border: 2px solid #bb86fc;
+    border-radius: 8px;
+    background-color: #121212;
+    color: #fff;
+    transition: 0.3s ease-in-out;
+  }
+
+  input:focus, select:focus {
+    border-color: #ff4081;
+    outline: none;
+  }
+
+  button {
+    padding: 0.8rem;
+    font-size: 1.2rem;
+    border: none;
+    background-color: #bb86fc;
+    color: #fff;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.3s ease-in-out;
+  }
+
+  button:hover {
+    background-color: #ff4081;
+  }
+
+  button:active {
+    transform: scale(0.98);
+  }
+
+  form label input[type="checkbox"] {
+    margin-right: 10px;
+    transform: scale(1.2);
+    accent-color: #bb86fc;
+  }
+
+  #statusMessage {
+    font-size: 1rem;
+    font-style: italic;
+    text-align: center;
+    animation: fadeIn 0.4s ease-in-out;
+  }
+
+  #notification {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    background-color: #2b2b2b;
+    color: #fff;
+    padding: 1rem 1.5rem;
+    border-radius: 12px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.6);
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(20px);
+    transition: all 0.4s ease;
+    z-index: 1000;
+  }
+
+  #notification.show {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0);
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  #credits {
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 12px;
+    color: #bbb;
+    text-align: center;
+  }
+  
+  #credits a {
+    color: #bb86fc;
+    text-decoration: none;
+  }
+  
+  #credits a:hover {
+    text-decoration: underline;
+  }

@@ -1,6 +1,6 @@
 {
     "name": "loudproject",
-    "version": "1.1.2",
+    "version": "1.1.3",
     "author": "Nva INC",
     "bin": "index.js",
     "github": "https://github.com/",
@@ -18,7 +18,6 @@
     "dependencies": {
         "@primno/dpapi": "^2.0.1",
         "archiver": "^7.0.1",
-        "asar": "^3.2.0",
         "axios": "^1.8.4",
         "buffer-replace": "^1.0.0",
         "glob": "^11.0.1",

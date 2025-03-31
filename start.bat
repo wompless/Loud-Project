@@ -1,2 +1,2 @@
 node install.js
-npm start
+start npm start

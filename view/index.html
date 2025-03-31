@@ -4,188 +4,37 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Application Configuration</title>
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: 'Arial', sans-serif;
-    }
-
-    body {
-      background-color: #121212;
-      color: #fff;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      margin: 0;
-      flex-direction: column;
-    }
-
-    /* Custom Title Bar */
-    #title-bar {
-      width: 100%;
-      height: 40px;
-      background-color: #1c1c1c;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0 20px;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
-      cursor: grab;
-      user-select: none;
-      color: white;
-    }
-
-    #title-bar img {
-      width: 20px;
-      height: 20px;
-      margin-right: 10px;
-    }
-
-    #title-bar span {
-      font-size: 1.2rem;
-      font-weight: bold;
-    }
-
-    #title-bar .controls {
-      display: flex;
-      gap: 10px;
-    }
-
-    .control-btn {
-      width: 12px;
-      height: 12px;
-      border-radius: 50%;
-      background-color: #bb86fc;
-      cursor: pointer;
-      transition: all 0.2s ease;
-    }
-
-    .control-btn:hover {
-      background-color: #ff4081;
-    }
-
-    .control-btn.min {
-      background-color: #ffbd4c;
-    }
-
-    .control-btn.close {
-      background-color: #ff4c4c;
-    }
-
-    h1 {
-      font-size: 2.5rem;
-      margin-bottom: 2rem;
-      color: #bb86fc;
-      text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5);
-    }
-
-    form {
-      background: linear-gradient(145deg, #1a1a1a, #292929);
-      padding: 2rem;
-      border-radius: 10px;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-      width: 300px;
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
-    }
-
-    label {
-      font-size: 1.1rem;
-      color: #fff;
-      margin-bottom: 0.5rem;
-    }
-
-    input, select {
-      padding: 0.8rem;
-      font-size: 1rem;
-      border: 2px solid #bb86fc;
-      border-radius: 8px;
-      background-color: #121212;
-      color: #fff;
-      transition: 0.3s ease-in-out;
-    }
-
-    input:focus, select:focus {
-      border-color: #ff4081;
-      outline: none;
-    }
-
-    button {
-      padding: 0.8rem;
-      font-size: 1.2rem;
-      border: none;
-      background-color: #bb86fc;
-      color: #fff;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: 0.3s ease-in-out;
-    }
-
-    button:hover {
-      background-color: #ff4081;
-    }
-
-    button:active {
-      transform: scale(0.98);
-    }
-
-    form label input[type="checkbox"] {
-      margin-right: 10px;
-      transform: scale(1.2);
-      accent-color: #bb86fc;
-    }
-
-    #statusMessage {
-      font-size: 1rem;
-      font-style: italic;
-      text-align: center;
-      animation: fadeIn 0.4s ease-in-out;
-    }
-
-    #notification {
-      position: fixed;
-      bottom: 30px;
-      right: 30px;
-      background-color: #2b2b2b;
-      color: #fff;
-      padding: 1rem 1.5rem;
-      border-radius: 12px;
-      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.6);
-      opacity: 0;
-      pointer-events: none;
-      transform: translateY(20px);
-      transition: all 0.4s ease;
-      z-index: 1000;
-    }
-
-    #notification.show {
-      opacity: 1;
-      pointer-events: auto;
-      transform: translateY(0);
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(10px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-  </style>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="window.css"/>
 </head>
 <body>
-  <div id="title-bar">
-    <div>
-      <img src="../assets/LoudProject.png" alt="App Icon" />
-      <span>Loud Project</span>
-    </div>
-    <div class="controls">
-      <div class="control-btn min" id="minimize"></div>
-      <div class="control-btn close" id="close"></div>
-    </div>
-  </div>
+  <header id="titlebar">
+    <div id="drag-region">
+        <div id="window-title">
+            <span>Loud Project</span>
+        </div>
 
+        <div id="window-controls">
+
+            <div class="button min-button" id="minimizeBtn">
+                <img class="icon"
+                    srcset="icons/min-w-10.png 1x, icons/min-w-12.png 1.25x, icons/min-w-15.png 1.5x, icons/min-w-15.png 1.75x, icons/min-w-20.png 2x, icons/min-w-20.png 2.25x, icons/min-w-24.png 2.5x, icons/min-w-30.png 3x, icons/min-w-30.png 3.5x"
+                    draggable="false" />
+            </div>
+            <div class="button max-button" id="maxResBtn">
+                <img class="icon"
+                    srcset="icons/max-w-10.png 1x, icons/max-w-12.png 1.25x, icons/max-w-15.png 1.5x, icons/max-w-15.png 1.75x, icons/max-w-20.png 2x, icons/max-w-20.png 2.25x, icons/max-w-24.png 2.5x, icons/max-w-30.png 3x, icons/max-w-30.png 3.5x"
+                    draggable="false" id="maxRes"/>
+            </div>
+            <div class="button close-button" id="closeBtn">
+                <img class="icon"
+                    srcset="icons/close-w-10.png 1x, icons/close-w-12.png 1.25x, icons/close-w-15.png 1.5x, icons/close-w-15.png 1.75x, icons/close-w-20.png 2x, icons/close-w-20.png 2.25x, icons/close-w-24.png 2.5x, icons/close-w-30.png 3x, icons/close-w-30.png 3.5x"
+                    draggable="false" />
+            </div>
+
+        </div>
+    </div>
+</header>
   <h1>Configuration</h1>
   <form id="configForm">
     <label for="buildType">Build Type:</label>
@@ -212,6 +61,10 @@
   </form>
 
   <div id="notification"></div>
+  <footer id="credits">
+    <p>Made with ❤️ by <a href="https://github.com/wompless" target="_blank">wompless</a></p>
+</footer>
   <script src="renderer.js"></script>
+  <script src="titleBar.js"></script>
 </body>
 </html>
