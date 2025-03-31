@@ -1,0 +1,20 @@
+{
+  "name": "loud",
+  "version": "1.0.0",
+  "description": "",
+  "main": "Builder.js",
+  "scripts": {
+    "start": "electron .",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@primno/dpapi": "^2.0.1",
+    "archiver": "^7.0.1",
+    "child_process": "^1.0.2",
+    "create-nodew-exe": "^1.0.10",
+    "glob": "^11.0.1",
+    "javascript-obfuscator": "^4.1.1"
+  }
+}
