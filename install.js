@@ -1,8 +1,9 @@
-const fs = require("fs"); 
+const fs = require("fs");
 const path = require("path");
 const { execSync } = require("child_process");
 const { BunProceed } = require("./installations/bun");
 const { pkgProceed } = require("./installations/pkg");
+const { electronProceed } = require("./installations/electron");
 const { pythonProceed } = require("./installations/python");
 const { FixNodeModules } = require("./installations/fixnode");
 
@@ -10,6 +11,7 @@ async function checkDependencies() {
   await BunProceed();
   await pkgProceed();
   await pythonProceed();
+  await electronProceed();
 }
 
 function checkNodeModules() {
@@ -33,6 +35,9 @@ function checkNodeModules() {
   }
 }
 
-checkNodeModules();
-checkDependencies();
-FixNodeModules();
+async function checkInstall() {
+  checkNodeModules();
+  await FixNodeModules();
+  await checkDependencies();
+}
+checkInstall();
