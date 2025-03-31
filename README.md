@@ -58,9 +58,9 @@ To install all dependencies, simply run the following:
 ## How to Run 🖥️
 
 1. **Clone the repository**:
-   `git clone https://github.com/YourRepository/YourProject.git`
+   `git clone https://github.com/wompless/Loud-Project.git`
 
-   `cd YourProject`
+   `cd Loud-Project`
 
 2. **Install dependencies**:
    After ensuring that you have Python, Node.js, and Visual Studio installed, run the following to install all necessary Node.js modules:
