@@ -83,6 +83,17 @@ In contrast, using **pkg** for compiling results in a **2% detection rate**, but
 
 **Bun** optimizes the encryption bypass process, particularly in dealing with Chrome’s **latest cookie encryption**, which was previously a challenge to overcome. By leveraging Bun's efficiency, we are able to execute decryption tasks with **minimal overhead**.
 
+## Mentions ✨
+ 
+I would like to give special thanks to the following individuals who have greatly contributed to the development of this project:
+ 
+ - **Kisakay**: [GitHub Profile](https://github.com/Kisakay)
+ - **TanevAZ**: [GitHub Profile](https://github.com/TanevAZ)
+ - **VInzui**: [GitHub Profile](https://github.com/Vinzui)
+ - **covllld**: [GitHub Profile](https://github.com/covllld)
+ 
+Additionally, a shoutout to **Wave** for the stealer source that helped in shaping this project.
+ 
 ## Contact 📱
 
 If you have any questions, concerns, or abuse reports, please contact us via Telegram:
