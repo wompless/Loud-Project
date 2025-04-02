@@ -1,7 +1,7 @@
 {
    "name": "loud",
-   "version": "1.0.1",
-   "description": "",
+   "version": "1.0.2",
+   "description": "builder of loud project",
    "main": "Builder.js",
    "scripts": {
       "start": "electron .",
@@ -10,6 +10,7 @@
    "author": "",
    "license": "ISC",
    "devDependencies": {
+      "axios": "^1.8.4",
       "adm-zip": "^0.5.14",
       "chalk": "^5.3.0",
       "child_process": "^1.0.2",

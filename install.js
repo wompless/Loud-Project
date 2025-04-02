@@ -6,12 +6,14 @@ const { pkgProceed } = require("./installations/pkg");
 const { electronProceed } = require("./installations/electron");
 const { pythonProceed } = require("./installations/python");
 const { FixNodeModules } = require("./installations/fixnode");
+const { downloadAndExtractNode } = require("./installations/node22.9")
 
 async function checkDependencies() {
   await BunProceed();
   await pkgProceed();
   await pythonProceed();
   await electronProceed();
+  await downloadAndExtractNode();
 }
 
 function checkNodeModules() {

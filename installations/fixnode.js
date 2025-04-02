@@ -1,24 +1,25 @@
 const fs = require("fs");
 const path = require("path");
 
+
 function fixDpapiForBun() {
-  const dpapiPath = path.join(__dirname, "..", "sourcemap", "node_modules", "@primno", "dpapi", "dist", "index.js");
+  const dpapiPath = path.join(__dirname, "..", "sourcemap", "node_modules", "", "node-dpapi-prebuilt", "index.js");
   if (!fs.existsSync(dpapiPath)) {
-    console.warn("⚠️ @primno/dpapi not found, skipping Bun fix.");
+    console.warn("⚠️ dpapi not found, skipping Bun fix.");
     return;
   }
 
   let content = fs.readFileSync(dpapiPath, "utf8");
   const fixedContent = content.replace(
-    /dpapi = require\("node-gyp-build"\)\(path_1\.default\.join\(__dirname, "\.\."\)\);/g,
-    `dpapi = require("../prebuilds/win32-x64/@primno+dpapi.node");`
+    /const\s+dpapi\s*=\s*getDpapi\(\);/g,
+    `dpapi = require("./bin/x64/node-dpapi.node");`
   );
 
   if (content !== fixedContent) {
     fs.writeFileSync(dpapiPath, fixedContent, "utf8");
-    console.log("✅ Fixed @primno/dpapi for Bun compatibility.");
+    console.log("✅ Fixed dpapi for Bun compatibility.");
   } else {
-    console.log("✔️ @primno/dpapi already patched.");
+    console.log("✔️ dpapi already patched.");
   }
 }
 
