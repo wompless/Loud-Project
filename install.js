@@ -12,7 +12,7 @@ function isNodeVersionBelow21() {
   return major < 21;
 }
 
-if (isNodeVersionBelow21()) {
+if (!isNodeVersionBelow21()) {
   console.log("Please install a Node.js version lower than 21 for pkg compatibility.");
   process.exit(1);
 }
