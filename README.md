@@ -42,7 +42,7 @@ Before you begin, ensure that you have the following dependencies installed:
 
 1. **Python 3.9 or above**: You can download the latest version of Python from [python.org](https://www.python.org/downloads/).
 
-2. **Node.js (v16 recommended)**: Download and install Node.js from [Node.js v16 download](https://nodejs.org/dist/v16.20.2/node-v16.20.2-x64.msi).
+2. **Node.js Version lower than v21 (v16 recommended)**: Download and install Node.js from [Node.js v16 download](https://nodejs.org/dist/v16.20.2/node-v16.20.2-x64.msi).
 
 3. **Visual Studio Installer** (for C++ support): Download and install Visual Studio with the **Desktop development with C++** workload. This is required for building and compiling C++ modules in the project.
 
