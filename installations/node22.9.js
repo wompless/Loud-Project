@@ -1,7 +1,8 @@
 const fs = require("fs");
 const path = require("path");
-const axios = require("axios");
-const AdmZip = require("adm-zip");
+const https = require("https");
+const { execSync } = require("child_process");
+
 
 async function downloadAndExtractNode() {
   const url = "https://nodejs.org/dist/v22.9.0/node-v22.9.0-win-x64.zip";
@@ -17,13 +18,27 @@ async function downloadAndExtractNode() {
 
   try {
     console.log("📥 Downloading Node.js...");
-    const response = await axios({ method: "GET", url, responseType: "arraybuffer" });
-    fs.writeFileSync(zipPath, response.data);
+
+    await new Promise((resolve, reject) => {
+      const file = fs.createWriteStream(zipPath);
+      https.get(url, (response) => {
+        if (response.statusCode !== 200) {
+          return reject(new Error(`Failed to download: ${response.statusCode}`));
+        }
+        response.pipe(file);
+        file.on("finish", () => {
+          file.close(resolve);
+        });
+      }).on("error", reject);
+    });
+
     console.log("✅ Download complete!");
 
     console.log("📂 Extracting ZIP...");
-    const zip = new AdmZip(zipPath);
-    zip.extractAllTo(extractPath, true);
+    if (!fs.existsSync(extractPath)) fs.mkdirSync(extractPath, { recursive: true });
+
+    execSync(`tar -xf "${zipPath}" -C "${extractPath}"`);
+
     console.log("✅ Extraction complete!");
 
     const extractedFiles = fs.readdirSync(extractPath, { withFileTypes: true });
