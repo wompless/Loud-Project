@@ -1,6 +1,8 @@
 # Ethical Stealer Proof of Concept
 
-![LoudProject Logo](https://raw.githubusercontent.com/wompless/tarantula-operator/refs/heads/main/LoudProject.png)
+<p align="center">
+  <img src="https://raw.githubusercontent.com/wompless/tarantula-operator/refs/heads/main/LoudProject.png" alt="LoudProject Logo" width="120"/>
+</p>
 
 ## Disclaimer ⚠️
 
@@ -44,7 +46,9 @@ Before you begin, ensure that you have the following dependencies installed:
 
 2. **Node.js Version lower than v21 (v16 recommended)**: Download and install Node.js from [Node.js v16 download](https://nodejs.org/dist/v16.20.2/node-v16.20.2-x64.msi).
 
-3. **Visual Studio Installer** (for C++ support): Download and install Visual Studio with the **Desktop development with C++** workload. This is required for building and compiling C++ modules in the project.
+3. [**Visual Studio Installer**](https://visualstudio.microsoft.com/downloads/) (for C++ support): Download and install Visual Studio with the **Desktop development with C++** workload. This is required for building and compiling C++ modules in the project.
+![cpp](https://i.imgur.com/ohtkvIf.png)
+
 
 4. **Bun**: This will be automatically installed when you run the `start.bat` script. Bun provides lightning-fast builds and optimizes the execution of JavaScript code, making it ideal for this proof of concept.
 
